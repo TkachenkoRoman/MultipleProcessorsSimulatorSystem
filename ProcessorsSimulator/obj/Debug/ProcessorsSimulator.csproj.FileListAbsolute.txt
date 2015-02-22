@@ -1,0 +1,9 @@
+D:\CompSys\ProcessorsSimulator\ProcessorsSimulator\bin\Debug\ProcessorsSimulator.exe.config
+D:\CompSys\ProcessorsSimulator\ProcessorsSimulator\bin\Debug\ProcessorsSimulator.exe
+D:\CompSys\ProcessorsSimulator\ProcessorsSimulator\bin\Debug\ProcessorsSimulator.pdb
+D:\CompSys\ProcessorsSimulator\ProcessorsSimulator\obj\Debug\ProcessorsSimulator.csprojResolveAssemblyReference.cache
+D:\CompSys\ProcessorsSimulator\ProcessorsSimulator\obj\Debug\ProcessorsSimulator.Main.resources
+D:\CompSys\ProcessorsSimulator\ProcessorsSimulator\obj\Debug\ProcessorsSimulator.Properties.Resources.resources
+D:\CompSys\ProcessorsSimulator\ProcessorsSimulator\obj\Debug\ProcessorsSimulator.csproj.GenerateResource.Cache
+D:\CompSys\ProcessorsSimulator\ProcessorsSimulator\obj\Debug\ProcessorsSimulator.exe
+D:\CompSys\ProcessorsSimulator\ProcessorsSimulator\obj\Debug\ProcessorsSimulator.pdb
