@@ -7,3 +7,7 @@ D:\CompSys\ProcessorsSimulator\ProcessorsSimulator\obj\Debug\ProcessorsSimulator
 D:\CompSys\ProcessorsSimulator\ProcessorsSimulator\obj\Debug\ProcessorsSimulator.csproj.GenerateResource.Cache
 D:\CompSys\ProcessorsSimulator\ProcessorsSimulator\obj\Debug\ProcessorsSimulator.exe
 D:\CompSys\ProcessorsSimulator\ProcessorsSimulator\obj\Debug\ProcessorsSimulator.pdb
+D:\CompSys\ProcessorsSimulator\ProcessorsSimulator\bin\Debug\Microsoft.VisualBasic.PowerPacks.dll
+D:\CompSys\ProcessorsSimulator\ProcessorsSimulator\bin\Debug\ru\Microsoft.VisualBasic.PowerPacks.resources.dll
+D:\CompSys\ProcessorsSimulator\ProcessorsSimulator\bin\Debug\PriborControlLibrary.dll
+D:\CompSys\ProcessorsSimulator\ProcessorsSimulator\bin\Debug\PriborControlLibrary.pdb

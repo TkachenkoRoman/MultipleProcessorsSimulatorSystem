@@ -19,6 +19,7 @@ namespace ProcessorsSimulator
         public int[] taskComplexityScope { get; set; }
         public delegate void GenerateTaskHandler(Task task);
         public event GenerateTaskHandler GenerateTask;
+        public event EventHandler WorkDone;
         public void GenerateTasks()
         {
             int sleepTime = (int) Math.Round(workingTime * probability, MidpointRounding.AwayFromZero);
@@ -28,7 +29,7 @@ namespace ProcessorsSimulator
             {
                 Thread.Sleep(sleepTime); // simulate waiting for task (create task every n miliseconds)
                 workingTime -= sleepTime; 
-                Task currentTask = new Task(); 
+                Task currentTask = new Task();
 
                 currentTask.operationsAmont = random.Next(taskComplexityScope[0], taskComplexityScope[1] + 1); // creates random in my scope range
                 int randomProcessorsAmount = random.Next(1, 6); // random processors amount 1..5 
@@ -44,9 +45,9 @@ namespace ProcessorsSimulator
                         }
                     currentTask.supportedProcessors[i] = processorNumber; // random processor number 
                 }
-
                 if (GenerateTask != null) GenerateTask(currentTask); // call GenerateTask event if smb subscribed 
             }
+            if (WorkDone != null) WorkDone(this, null);
         }
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Threading;
+
 
 namespace ProcessorsSimulator
 {
@@ -17,13 +17,7 @@ namespace ProcessorsSimulator
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Manager manager = new Manager();
-            Thread MySystem = new Thread(new
-                ThreadStart(manager.manage));
-            MySystem.Start();
             Application.Run(new Main());
-            
-            
         }
     }
 }
