@@ -26,6 +26,7 @@ namespace ProcessorsSimulator
             this.manager.generator.GenerateTask += new Generator.GenerateTaskHandler(BlinkWhenNewTaskGenerated);
             this.manager.ProcessorsWorkDone += new EventHandler(OnWorkDone); // enable to start again
             this.manager.QueueModified += new EventHandler(OnQueueModified);
+            this.manager.SendTaskToProcessor += new EventHandler(BlinkWhenTaskSended);
         }
         private void OnQueueModified(object sender, EventArgs e)
         {
@@ -45,10 +46,18 @@ namespace ProcessorsSimulator
             //this.buttonStart.Enabled = true;
             this.Invoke((MethodInvoker)delegate { buttonStart.Enabled = true; });
         }
+        private void BlinkWhenTaskSended(object sender, EventArgs e)
+        {
+            this.pictureBoxManagerIndicator.BackColor = System.Drawing.SystemColors.Highlight;
+            Application.DoEvents();
+            Thread.Sleep(100);
+            this.pictureBoxManagerIndicator.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+        }
         private void BlinkWhenNewTaskGenerated(Task task)
         {
             this.pictureBoxGeneratorIndicator.BackColor = System.Drawing.SystemColors.Highlight;
-            Thread.Sleep(500);
+            Application.DoEvents();
+            Thread.Sleep(100);
             this.pictureBoxGeneratorIndicator.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
         }
         private void buttonGeneratorUpdate_Click(object sender, EventArgs e)

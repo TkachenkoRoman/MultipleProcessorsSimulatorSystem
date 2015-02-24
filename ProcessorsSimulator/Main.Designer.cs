@@ -47,6 +47,7 @@
             this.labelManager = new System.Windows.Forms.Label();
             this.pictureBoxManager = new System.Windows.Forms.PictureBox();
             this.richTextBoxManagerQueue = new System.Windows.Forms.RichTextBox();
+            this.hArrow1 = new PriborControlLibrary.HArrow();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxGenerator)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxGeneratorIndicator)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxManagerIndicator)).BeginInit();
@@ -207,7 +208,7 @@
             this.labelManager.AutoSize = true;
             this.labelManager.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.labelManager.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelManager.Location = new System.Drawing.Point(641, 23);
+            this.labelManager.Location = new System.Drawing.Point(640, 23);
             this.labelManager.Name = "labelManager";
             this.labelManager.Size = new System.Drawing.Size(73, 18);
             this.labelManager.TabIndex = 15;
@@ -217,7 +218,7 @@
             // 
             this.pictureBoxManager.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.pictureBoxManager.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBoxManager.Location = new System.Drawing.Point(479, 12);
+            this.pictureBoxManager.Location = new System.Drawing.Point(478, 12);
             this.pictureBoxManager.Name = "pictureBoxManager";
             this.pictureBoxManager.Size = new System.Drawing.Size(387, 257);
             this.pictureBoxManager.TabIndex = 14;
@@ -236,12 +237,23 @@
             this.richTextBoxManagerQueue.TabIndex = 26;
             this.richTextBoxManagerQueue.Text = "";
             // 
+            // hArrow1
+            // 
+            this.hArrow1.ArrowType = ArrowT.none;
+            this.hArrow1.Location = new System.Drawing.Point(397, 110);
+            this.hArrow1.Margin = new System.Windows.Forms.Padding(0);
+            this.hArrow1.Name = "hArrow1";
+            this.hArrow1.Size = new System.Drawing.Size(81, 10);
+            this.hArrow1.TabIndex = 27;
+            this.hArrow1.WidthType = WidthT.default_width;
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
             this.ClientSize = new System.Drawing.Size(1148, 631);
+            this.Controls.Add(this.hArrow1);
             this.Controls.Add(this.buttonStart);
             this.Controls.Add(this.richTextBoxManagerQueue);
             this.Controls.Add(this.pictureBoxManagerIndicator);
@@ -293,6 +305,7 @@
         private System.Windows.Forms.Label labelManager;
         private System.Windows.Forms.PictureBox pictureBoxManager;
         private System.Windows.Forms.RichTextBox richTextBoxManagerQueue;
+        private PriborControlLibrary.HArrow hArrow1;
 
         
     }

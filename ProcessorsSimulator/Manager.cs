@@ -37,6 +37,7 @@ namespace ProcessorsSimulator
 
         public event EventHandler ProcessorsWorkDone;
         public event EventHandler QueueModified;
+        public event EventHandler SendTaskToProcessor;
 
         public void Manage()
         {
@@ -144,6 +145,7 @@ namespace ProcessorsSimulator
                             Debug.Print(String.Format("Manager sends task (id={0}, operationsAmount={1}, supportedProcessors={2}) to Processor",
                                                     currentTask.id.ToString(), currentTask.operationsAmont.ToString(), 
                                                     currentTask.getSupportedProcessors(), (i + 1).ToString()));
+                            if (SendTaskToProcessor != null) SendTaskToProcessor(this, null);
                             processors[i].condition = processor_condition.processing;
                         }             
                     }
