@@ -24,6 +24,12 @@ namespace ProcessorsSimulator
         private void ManageInterface()
         {
             this.manager.generator.GenerateTask += new Generator.GenerateTaskHandler(BlinkWhenNewTaskGenerated);
+            this.manager.generator.WorkDone += new EventHandler(OnWorkDone);
+        }
+        private void OnWorkDone(object sender, EventArgs e)
+        {
+            //this.buttonStart.Enabled = true;
+            this.Invoke((MethodInvoker)delegate { buttonStart.Enabled = true; });
         }
         private void BlinkWhenNewTaskGenerated(Task task)
         {
@@ -33,12 +39,13 @@ namespace ProcessorsSimulator
         }
         private void buttonGeneratorUpdate_Click(object sender, EventArgs e)
         {
-
+            
         }
 
         private void buttonStart_Click(object sender, EventArgs e)
         {
             manager.generator.workingTime = 10000; // reload
+            this.buttonStart.Enabled = false;
             manager.Manage();
         }
     }

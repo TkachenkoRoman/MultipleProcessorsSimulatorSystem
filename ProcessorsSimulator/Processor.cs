@@ -31,7 +31,7 @@ namespace ProcessorsSimulator
                 }
                 else
                 {
-                    Thread.Sleep(1000);
+                    Thread.Sleep(10);
                 }
                     
             } 
