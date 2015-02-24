@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
+using System.Diagnostics;
 
 enum processor_condition {waitingForTask, processing}
 
@@ -26,12 +27,14 @@ namespace ProcessorsSimulator
             {
                 if (condition == processor_condition.processing && currentTask != null)
                 {
-                    Thread.Sleep(1000); // TODO
+                    Debug.Print("Processing task (operationsAmount=" + currentTask.operationsAmont.ToString() + 
+                                ", supportedProcessors=" + currentTask.getSupportedProcessors() + ")");
+                    Thread.Sleep(10000); // TODO
                     condition = processor_condition.waitingForTask; // work done, processor is free
                 }
                 else
                 {
-                    Thread.Sleep(10);
+                    Thread.Sleep(50);
                 }
                     
             } 

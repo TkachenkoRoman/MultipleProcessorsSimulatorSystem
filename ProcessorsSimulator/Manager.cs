@@ -4,8 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
-
+using System.Diagnostics;
 enum conditionManager {waiting_for_task, waiting_for_proc, stopped}
+
+
 
 namespace ProcessorsSimulator
 {
@@ -20,6 +22,9 @@ namespace ProcessorsSimulator
             CreateGenerator();
             CreateGeneratorThread();
             CreateManageProcessors();
+            generator.WorkDone += new EventHandler(OnWorkDone);
+            this.ProcessorsWorkDone += OnProcessorsWorkDone;
+            Debug.Print("Manager initialized");
         }
 
         public conditionManager condition;
@@ -30,6 +35,9 @@ namespace ProcessorsSimulator
         private Thread processorManager;
         private Thread[] processorsThreads;
 
+        public event EventHandler ProcessorsWorkDone;
+        public event EventHandler QueueModified;
+
         public void Manage()
         {
             StartProcessors();
@@ -39,23 +47,34 @@ namespace ProcessorsSimulator
         private void GetTask(Task task)
         {
             taskQueue.Enqueue(task);
+            Debug.Print(String.Format("Task (id={0}, operationsAmount={1}, supportedProcessors={2}) is added to queue", 
+                                task.id.ToString(), task.operationsAmont.ToString(), task.getSupportedProcessors()));
+            if (QueueModified != null) QueueModified(this, null);
         }
         private void OnWorkDone(object sender, EventArgs e)
         {
             //generatorThread.Abort();
             //processorManager.Abort();
             //AbortProcessors();
+            Debug.Print("Generator work is done.");        
+            CreateGeneratorThread();   
+        }
+        //
+        // reload threads when they finish work !!Attention: generator might finish his work before processors
+        //
+        private void OnProcessorsWorkDone(object sender, EventArgs e) 
+        {
+            Debug.Print("Processors work is done.");
+            Debug.Print("Queue count = " + taskQueue.Count().ToString());
             taskQueue = new Queue<Task>(); // reload
             processors = new List<Processor>();
             processorsThreads = new Thread[5];
             CreateProcessors();
-            CreateGeneratorThread();
             CreateManageProcessors();
         }
         private void CreateGenerator()
         {
             generator = new Generator();
-            generator.workingTime = 10000;
             generator.GenerateTask += new Generator.GenerateTaskHandler(GetTask);
         }
         private void CreateGeneratorThread()
@@ -67,7 +86,7 @@ namespace ProcessorsSimulator
         private void StartGenerator()
         {
             generatorThread.Start();
-            generator.WorkDone += new EventHandler(OnWorkDone);
+            Debug.Print("Generator thread started");
         }
         private void CreateProcessors() // filling processors
         {
@@ -86,6 +105,7 @@ namespace ProcessorsSimulator
             for (int i = 0; i < processorsThreads.Count(); i++)
             {
                 processorsThreads[i].Start();
+                Debug.Print("Processor" + (i + 1).ToString() + " thread started");
             }
         }
         private void AbortProcessors()
@@ -104,6 +124,7 @@ namespace ProcessorsSimulator
         private void StartManageProcessors()
         {
             processorManager.Start(); // start managing
+            Debug.Print("Manager thread started");
         }
         private void ManageProcessors() // if task_queue has tasks - give them to processors
         {
@@ -111,22 +132,34 @@ namespace ProcessorsSimulator
             {
                 if (taskQueue.Count != 0)
                 {
+                    Thread.Sleep(50); // extra time for displaying queue (only for those tasks, which is send to processors immediately)
                     Task currentTask = taskQueue.Peek(); // peeks first elem in queue
                     for(int i = 0; i < processors.Count; i++)
                     {
-                        if (processors[i].condition == processor_condition.waitingForTask)
+                        if (processors[i].condition == processor_condition.waitingForTask && taskQueue.Count != 0)
                         {
-                            if (taskQueue.Count != 0)
-                                currentTask = taskQueue.Dequeue(); // return first elem and delete it
+                            currentTask = taskQueue.Dequeue(); // return first elem and delete it
+                            if (QueueModified != null) QueueModified(this, null);
                             processors[i].currentTask = currentTask;
+                            Debug.Print(String.Format("Manager sends task (id={0}, operationsAmount={1}, supportedProcessors={2}) to Processor",
+                                                    currentTask.id.ToString(), currentTask.operationsAmont.ToString(), 
+                                                    currentTask.getSupportedProcessors(), (i + 1).ToString()));
                             processors[i].condition = processor_condition.processing;
                         }             
                     }
                 }
-                else
+                else // queue is empty
                 {
-                    if (generator.workingTime <= 0)
-                        break;
+                    if (generator.workingTime <= 0) // if generator stops working
+                    {
+                        if (processors.All(x => x.condition == processor_condition.waitingForTask)) // checking for all tasks processed
+                            if (ProcessorsWorkDone != null)
+                            {
+                                ProcessorsWorkDone(this, null);
+                                break;
+                            }
+                            else Thread.Sleep(30); 
+                    }         
                 }
             }
         }

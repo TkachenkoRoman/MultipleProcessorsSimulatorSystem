@@ -24,7 +24,21 @@ namespace ProcessorsSimulator
         private void ManageInterface()
         {
             this.manager.generator.GenerateTask += new Generator.GenerateTaskHandler(BlinkWhenNewTaskGenerated);
-            this.manager.generator.WorkDone += new EventHandler(OnWorkDone);
+            this.manager.ProcessorsWorkDone += new EventHandler(OnWorkDone); // enable to start again
+            this.manager.QueueModified += new EventHandler(OnQueueModified);
+        }
+        private void OnQueueModified(object sender, EventArgs e)
+        {
+            string res = "";
+            if (manager.taskQueue.Count() != 0)
+            {
+                foreach (Task task in manager.taskQueue)
+                {
+                    res += String.Format("{0}. Task (operationsAmount={1}, supportedProcessors={2}){3}", 
+                                        task.id.ToString(), task.operationsAmont.ToString(), task.getSupportedProcessors(), "\n");
+                }
+            }
+            this.Invoke((MethodInvoker)delegate { richTextBoxManagerQueue.Text = res; });
         }
         private void OnWorkDone(object sender, EventArgs e)
         {
@@ -44,7 +58,7 @@ namespace ProcessorsSimulator
 
         private void buttonStart_Click(object sender, EventArgs e)
         {
-            manager.generator.workingTime = 10000; // reload
+            manager.generator.workingTime = 5000; // reload
             this.buttonStart.Enabled = false;
             manager.Manage();
         }

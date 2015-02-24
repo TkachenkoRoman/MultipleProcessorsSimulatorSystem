@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
+using System.Diagnostics;
 
 namespace ProcessorsSimulator
 {
@@ -11,10 +12,11 @@ namespace ProcessorsSimulator
     {
         public Generator()
         {
-            probability = 0.1; //default, should be in range 0..1
+            indexSleepBetweenTask = 0.05; //default, should be in range 0..1
             taskComplexityScope = new int[2] { 300, 1000 }; //default
+            workingTime = 5000;
         }
-        public double probability { get; set; }
+        public double indexSleepBetweenTask { get; set; }
         public int workingTime { get; set; }
         public int[] taskComplexityScope { get; set; }
         public delegate void GenerateTaskHandler(Task task);
@@ -22,15 +24,18 @@ namespace ProcessorsSimulator
         public event EventHandler WorkDone;
         public void GenerateTasks()
         {
-            int sleepTime = (int) Math.Round(workingTime * probability, MidpointRounding.AwayFromZero);
+            int sleepTime = (int) Math.Round(workingTime * indexSleepBetweenTask, MidpointRounding.AwayFromZero);
             Random random = new Random();
+            int id = 0;
 
             while (workingTime > 0)
             {
+                Debug.Print("Working time: " + workingTime.ToString());
                 Thread.Sleep(sleepTime); // simulate waiting for task (create task every n miliseconds)
-                workingTime -= sleepTime; 
+                workingTime -= sleepTime;
                 Task currentTask = new Task();
 
+                currentTask.id = id++;
                 currentTask.operationsAmont = random.Next(taskComplexityScope[0], taskComplexityScope[1] + 1); // creates random in my scope range
                 int randomProcessorsAmount = random.Next(1, 6); // random processors amount 1..5 
                 //currentTask.supportedProcessors = new int[] { 1, 2, 3, 4, 5 };
